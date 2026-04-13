@@ -35,7 +35,7 @@ async function testBackend() {
 
 <template>
   <h1>Sistema de Login</h1>
-  <input v-model="Text" type="text" placeholder="Usuário" />
+  <input v-model="User" type="text" placeholder="Usuário" />
   <input v-model="Password" type="password" placeholder="Senha" />
   <button @click="login">Entrar</button>
   <button @click="testBackend">Testar Backend</button>

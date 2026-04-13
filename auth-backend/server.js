@@ -1,16 +1,11 @@
 const express = require('express');
+const cors = require('cors');
+
 const app = express();
 
+// 🔓 Middleware
+app.use(cors());
 app.use(express.json());
-
-// 🔓 Middleware (CORS)
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-  res.header('Access-Control-Allow-Headers', 'Content-Type');
-  next();
-});
-
 
 // 📡 Rotas
 app.get('/test', (req, res) => {
@@ -19,11 +14,14 @@ app.get('/test', (req, res) => {
 
 app.post('/login', (req, res) => {
   const { user, password } = req.body;
-  
-  console.log (user, password)
-  res.json({ message: `Login attempt for user: ${user}` });
-});
 
+  if (user === 'admin' && password === '123') {
+    return res.json({  message: `Login attempt for user: ${user}`,
+       status: 'Login successful!' });
+  } else {
+    return res.status(401).json({ message: 'Invalid credentials' });
+  }
+});
 
 // 🚀 Servidor
 app.listen(3000, () => {
