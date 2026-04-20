@@ -25,8 +25,11 @@ function login() {
     .then(data => {
       console.log('Success:', data)
       Message.value = data.status 
+
+      if (data.success) {
       User.value = ''
       Password.value = ''
+      }
     })
     .catch((error) => {
       console.error('Error:', error)

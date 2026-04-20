@@ -16,9 +16,15 @@ app.post('/login', (req, res) => {
   const { user, password } = req.body;
 
   if (user === 'admin' && password === '123') {
-    return res.json({status: 'Login successful!' });
+    return res.json({
+      success: true,
+      status: 'Login successful!' 
+    });
   } else {
-    return res.status(401).json({ message: 'Invalid credentials' });
+    return res.status(401).json({ 
+      success: false,
+      message: 'Invalid credentials' 
+    });
   }
 });
 
