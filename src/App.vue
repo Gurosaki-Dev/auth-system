@@ -6,7 +6,6 @@ const Password = ref('')
 const Message = ref('')
 
 function login() {
-  console.log('Login:', User.value, Password.value)
   fetch('http://localhost:3000/login', {
     method: 'POST',
     headers: {
@@ -25,6 +24,7 @@ function login() {
     .then(data => {
       console.log('Success:', data)
       Message.value = data.status 
+      localStorage.setItem('token', data.token) // Armazena o token no localStorage
 
       if (data.success) {
       User.value = ''
@@ -35,6 +35,17 @@ function login() {
       console.error('Error:', error)
       Message.value = error.message
     })
+}
+
+function testProtected() {
+  const token = localStorage.getItem('token')
+
+  fetch('http://localhost:3000/protected', {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
 }
 
 async function testBackend() {
