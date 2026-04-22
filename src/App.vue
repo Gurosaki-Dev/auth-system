@@ -1,40 +1,36 @@
 <script setup>
 import { ref } from 'vue'
 
-const User = ref('')
-const Password = ref('')
-const Message = ref('')
+const user = ref('')
+const password = ref('')
+const message = ref('')
 
-function login() {
-  fetch('http://localhost:3000/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ user: User.value, password: Password.value })
-  })
-    .then(response => {
-      if (!response.ok) {
-        return response.json().then(errorData => {
-          throw new Error(errorData.message || 'Network response was not ok')
-        })
-      }
-      return response.json()
+async function login() {
+  try {
+    const response = await fetch('http://localhost:3000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ user: user.value, password: password.value })
     })
-    .then(data => {
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.message || 'Login failed')
+      }
+    const data = await response.json()
       console.log('Success:', data)
-      Message.value = data.status 
+      message.value = data.status 
       localStorage.setItem('token', data.token) // Armazena o token no localStorage
 
       if (data.success) {
-      User.value = ''
-      Password.value = ''
+      user.value = ''
+      password.value = ''
       }
-    })
-    .catch((error) => {
-      console.error('Error:', error)
-      Message.value = error.message
-    })
+  } catch (error) {
+    console.error('Error:', error)
+    message.value = error.message
+  }
 }
 
 function testProtected() {
@@ -61,11 +57,11 @@ async function testBackend() {
 
 <template>
   <h1>Sistema de Login</h1>
-  <p :style="{ color: Message.includes('successful') ? 'green' : 'red' }">
-  {{ Message }}
+  <p :style="{ color: message.includes('successful') ? 'green' : 'red' }">
+  {{ message }}
 </p>
-  <input v-model="User" type="text" placeholder="Usuário" />
-  <input v-model="Password" type="password" placeholder="Senha" />
+  <input v-model="user" type="text" placeholder="Usuário" />
+  <input v-model="password" type="password" placeholder="Senha" />
   <button @click="login">Entrar</button>
   <button @click="testBackend">Testar Backend</button>
 </template>
