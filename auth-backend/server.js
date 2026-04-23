@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 const app = express();
 
@@ -19,7 +22,7 @@ app.post('/login', (req, res) => {
   if (user === 'admin' && password === '123') {
     const token = jwt.sign(
       {user: user},
-      'minha_chave_secreta',
+      process.env.JWT_SECRET,
       { expiresIn: '1h' }
     )
     return res.json({
@@ -44,7 +47,7 @@ app.get('/protected', (req, res) => {
 
   const token = authHeader.split(' ')[1];
 
-  jwt.verify(token, 'minha_chave_secreta', (err, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       return res.status(401).json({ message: 'Invalid token' });
     }

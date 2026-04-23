@@ -1,13 +1,14 @@
 <script setup>
 import { ref } from 'vue'
 
+
 const user = ref('')
 const password = ref('')
 const message = ref('')
 
 async function login() {
   try {
-    const response = await fetch('http://localhost:3000/login', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -37,7 +38,7 @@ async function testProtected() {
   const token = localStorage.getItem('token')
 
   try {
-    const response = await fetch('http://localhost:3000/protected', {
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/protected`, {
       method: 'GET',
       headers: {
         'Authorization': `Bearer ${token}`
@@ -52,7 +53,7 @@ async function testProtected() {
 
 async function testBackend() {
   try {
-    const response = await fetch('http://localhost:3000/test')
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/test`)
     const data = await response.json()
     console.log(data)
   } catch (error) {
