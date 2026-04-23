@@ -33,15 +33,21 @@ async function login() {
   }
 }
 
-function testProtected() {
+async function testProtected() {
   const token = localStorage.getItem('token')
 
-  fetch('http://localhost:3000/protected', {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`
-    }
-  })
+  try {
+    const response = await fetch('http://localhost:3000/protected', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    const data = await response.json()
+    console.log(data)
+  } catch (error) {
+    console.error('Error:', error)
+  }
 }
 
 async function testBackend() {
