@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv');
+const pool = require('./db');
+const bcrypt = require('bcrypt');
 
 dotenv.config();
 
@@ -14,6 +16,17 @@ app.use(express.json());
 //Routes
 app.get('/test', (req, res) => {
   res.json({ message: 'Hello from the auth backend!' });
+});
+
+app.post('/register', async (req, res) => {
+  const { user, password } = req.body;
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await pool.query('INSERT INTO users (username, password) VALUES ($1, $2)', [user, hashedPassword]);
+    return res.json({ message: 'User registered successfully' });
+  } catch (error) {
+    return res.status(500).json({error: error.message });
+  }
 });
 
 app.post('/login', (req, res) => {
