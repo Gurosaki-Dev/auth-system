@@ -29,25 +29,34 @@ app.post('/register', async (req, res) => {
   }
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
   const { user, password } = req.body;
+  try {
+    const result = await pool.query('SELECT * FROM users WHERE username = $1', [user]);
+    if (result.rows.length === 0) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
 
-  if (user === 'admin' && password === '123') {
+    const userRow = result.rows[0];
+    const isMatch = await bcrypt.compare(password, userRow.password);
+
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
     const token = jwt.sign(
       {user: user},
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
-    )
+    );
+
     return res.json({
       success: true,
       status: 'Login successful!',
       token: token
     });
-  } else {
-    return res.status(401).json({ 
-      success: false,
-      message: 'Invalid credentials' 
-    });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
   }
 });
 
