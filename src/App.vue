@@ -50,16 +50,6 @@ async function testProtected() {
     console.error('Error:', error)
   }
 }
-
-async function testBackend() {
-  try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/test`)
-    const data = await response.json()
-    console.log(data)
-  } catch (error) {
-    console.error('Error:', error)
-  }
-}
 </script>
 
 <template>
@@ -70,6 +60,5 @@ async function testBackend() {
   </p>
   <input v-model="user" type="text" placeholder="Usuário" />
   <input v-model="password" type="password" placeholder="Senha" />
-  <button @click="login">Entrar</button>
-  <button @click="testBackend">Testar Backend</button>
+  <button @click="login">Enter</button>
 </template>

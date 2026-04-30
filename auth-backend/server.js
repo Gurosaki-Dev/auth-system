@@ -14,10 +14,6 @@ app.use(cors());
 app.use(express.json());
 
 //Routes
-app.get('/test', (req, res) => {
-  res.json({ message: 'Hello from the auth backend!' });
-});
-
 app.post('/register', async (req, res) => {
   const { user, password } = req.body;
   try {
