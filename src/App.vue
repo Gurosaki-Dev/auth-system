@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-
+import Register from './components/Register.vue'
 
 const user = ref('')
 const password = ref('')
@@ -64,9 +64,10 @@ async function testBackend() {
 
 <template>
   <h1>Sistema de Login</h1>
+  <Register />
   <p :style="{ color: message.includes('successful') ? 'green' : 'red' }">
   {{ message }}
-</p>
+  </p>
   <input v-model="user" type="text" placeholder="Usuário" />
   <input v-model="password" type="password" placeholder="Senha" />
   <button @click="login">Entrar</button>
