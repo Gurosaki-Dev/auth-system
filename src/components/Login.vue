@@ -60,4 +60,5 @@ async function testProtected() {
   <input v-model="user" type="text" placeholder="Usuário" />
   <input v-model="password" type="password" placeholder="Senha" />
   <button @click="login">Enter</button>
+  <RouterLink to="/register">Criar conta</RouterLink>
 </template>

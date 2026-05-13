@@ -47,4 +47,5 @@ async function register() {
         </div>
         <button type="submit">Register</button>
     </form>
+    <RouterLink to="/">Já tenho uma conta</RouterLink>
 </template>
