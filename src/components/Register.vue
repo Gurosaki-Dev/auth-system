@@ -1,13 +1,14 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const user = ref('')
 const password = ref('')
 const message = ref('')
+const router = useRouter()
 
 async function register() {
     try {
-        console.log(import.meta.env.VITE_API_URL)
         const response = await fetch(`${import.meta.env.VITE_API_URL}/register`, {
             method: 'POST',
             headers: {
@@ -24,11 +25,10 @@ async function register() {
         }
         const data = await response.json()
         message.value = data.message
+
+        router.push('/')
     } catch (error) {
         message.value = 'Registration failed'
-        console.error('Error name:', error.name)
-        console.error('Error message:', error.message)
-        console.error('Error stack:', error.stack)
     }
 }
 </script>
