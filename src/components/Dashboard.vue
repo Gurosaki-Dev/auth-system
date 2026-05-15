@@ -1,1 +1,3 @@
-<h1> Wellcome </h1>
+<template>
+    <h1> Wellcome </h1>
+</template>

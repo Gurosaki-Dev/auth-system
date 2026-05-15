@@ -1,9 +1,11 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 const user = ref('')
 const password = ref('')
 const message = ref('')
+const router = useRouter()
 
 async function login() {
   try {
@@ -25,6 +27,7 @@ async function login() {
       if (data.success) {
       user.value = ''
       password.value = ''
+      router.push('/dashboard')
       }
   } catch (error) {
     message.value = error.message
