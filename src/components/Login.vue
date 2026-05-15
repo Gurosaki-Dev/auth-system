@@ -19,7 +19,6 @@ async function login() {
         throw new Error(errorData.message || 'Login failed')
       }
     const data = await response.json()
-      console.log('Success:', data)
       message.value = data.status 
       localStorage.setItem('token', data.token) // Armazena o token no localStorage
 
@@ -28,37 +27,18 @@ async function login() {
       password.value = ''
       }
   } catch (error) {
-    console.error('Error:', error)
     message.value = error.message
-  }
-}
-
-async function testProtected() {
-  const token = localStorage.getItem('token')
-
-  try {
-    const response = await fetch(`${import.meta.env.VITE_API_URL}/protected`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    const data = await response.json()
-    console.log(data)
-  } catch (error) {
-    console.error('Error:', error)
   }
 }
 </script>
 
 <template>
-  <h1>Sistema de Login</h1>
-  <Register />
+  <h1>Login System</h1>
   <p :style="{ color: message.includes('successful') ? 'green' : 'red' }">
   {{ message }}
   </p>
-  <input v-model="user" type="text" placeholder="Usuário" />
-  <input v-model="password" type="password" placeholder="Senha" />
+  <input v-model="user" type="text" placeholder="User" />
+  <input v-model="password" type="password" placeholder="Password" />
   <button @click="login">Enter</button>
   <RouterLink to="/register">Criar conta</RouterLink>
 </template>
